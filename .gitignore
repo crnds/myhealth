@@ -1,0 +1,13 @@
+# Generated from a personal Apple Health export — keep out of git.
+workouts.json
+
+# OS / editor cruft
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Claude Code session state (local only)
+.claude/

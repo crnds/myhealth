@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Workout Adaptation Report</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">WA</div>
+    <div>
+      <h1>Workout Adaptation Report</h1>
+      <p class="sub">Apple Watch &amp; Strava session history</p>
+    </div>
+  </div>
+  <div class="topbar-meta" id="topbar-meta"></div>
+</header>
+
+<main class="container">
+
+  <!-- High-level summary -->
+  <section class="summary" id="summary"></section>
+
+  <!-- Category navigator -->
+  <section class="card">
+    <header class="card-head">
+      <h2>Category</h2>
+      <p class="muted">Choose a workout type to view trends and individual sessions.</p>
+    </header>
+    <nav class="category-nav" id="category-nav" role="tablist"></nav>
+  </section>
+
+  <!-- Trend charts -->
+  <section class="card" id="trends-card">
+    <header class="card-head between">
+      <div>
+        <h2 id="trends-title">Adaptation trends</h2>
+        <p class="muted" id="trends-sub"></p>
+      </div>
+      <div class="control-row">
+        <label>Range
+          <select id="range-select">
+            <option value="all">All time</option>
+            <option value="365">Last 12 months</option>
+            <option value="180">Last 6 months</option>
+            <option value="90">Last 90 days</option>
+            <option value="30">Last 30 days</option>
+          </select>
+        </label>
+        <label>Smoothing
+          <select id="smooth-select">
+            <option value="0">Off</option>
+            <option value="3">3-session avg</option>
+            <option value="5" selected>5-session avg</option>
+            <option value="10">10-session avg</option>
+          </select>
+        </label>
+      </div>
+    </header>
+    <div class="chart-grid" id="chart-grid"></div>
+  </section>
+
+  <!-- Session lookup + comparison -->
+  <section class="card">
+    <header class="card-head">
+      <h2>Sessions</h2>
+      <p class="muted">Search a session, then click <em>A</em> or <em>B</em> to compare two of them.</p>
+    </header>
+
+    <div class="control-row">
+      <label class="grow">Search
+        <input id="search-input" type="search" placeholder="Date, type, or YYYY-MM..." autocomplete="off" />
+      </label>
+      <label>Sort
+        <select id="sort-select">
+          <option value="date-desc">Newest first</option>
+          <option value="date-asc">Oldest first</option>
+          <option value="duration-desc">Longest duration</option>
+          <option value="distance-desc">Longest distance</option>
+          <option value="energy-desc">Most calories</option>
+          <option value="hr-desc">Highest avg HR</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="session-list-wrap">
+      <table class="session-list" id="session-list">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Duration</th>
+            <th>Distance</th>
+            <th>Avg HR</th>
+            <th>Energy</th>
+            <th>METs</th>
+            <th class="compare-col">Compare</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="muted empty" id="empty-msg" hidden>No sessions match.</p>
+    </div>
+  </section>
+
+  <!-- Selected session detail -->
+  <section class="card detail-card" id="detail-card" hidden>
+    <header class="card-head between">
+      <div>
+        <h2 id="detail-title">Session detail</h2>
+        <p class="muted" id="detail-sub"></p>
+      </div>
+      <button type="button" class="ghost" id="detail-close">Close</button>
+    </header>
+    <div class="detail-grid" id="detail-grid"></div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="card compare-card" id="compare-card" hidden>
+    <header class="card-head between">
+      <div>
+        <h2>Comparison</h2>
+        <p class="muted">Side-by-side metrics for sessions A and B.</p>
+      </div>
+      <button type="button" class="ghost" id="compare-clear">Clear</button>
+    </header>
+    <div class="compare-headings">
+      <div class="compare-col-head a"><span class="pill a">A</span><span id="compare-a-title">—</span></div>
+      <div class="compare-col-head b"><span class="pill b">B</span><span id="compare-b-title">—</span></div>
+    </div>
+    <table class="compare-table" id="compare-table">
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <footer class="footnote">
+    <p>Data parsed locally from <code>~/Desktop/apple_health_export/export.xml</code>. No data is uploaded.</p>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
